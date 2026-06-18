@@ -1464,6 +1464,8 @@ checksum = "b6d2cec3eae94f9f509c767b45932f1ada8350c4bdb85af2fcab4a3c14807981"
 [[package]]
 name = "lightflow"
 version = "0.1.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "cd19352d69e6bea24389fe9d4c023563c03dff431670fdd256689d3afe37d9b1"
 dependencies = [
  "axum",
  "candle-core",
