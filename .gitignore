@@ -1,0 +1,9 @@
+/target/
+/.cache/
+/.test-xdg/
+/lfw.lock
+
+# Local editor and OS files
+.DS_Store
+*.swp
+*.swo

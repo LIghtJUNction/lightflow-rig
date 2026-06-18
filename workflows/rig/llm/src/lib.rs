@@ -1,0 +1,25 @@
+use lightflow::preload::*;
+
+pub fn define() -> WorkflowSpec {
+    workflow("lightflow.rig.llm")
+        .version("0.1.0")
+        .name("RIG LLM")
+        .description("Generate text through Rig using a provider, model, and runtime prompt.")
+        .input("prompt", "text")
+        .input("text", "text")
+        .input("system", "text")
+        .input("preamble", "text")
+        .input("provider", "text")
+        .input("model", "text")
+        .input("api_key", "text")
+        .input("base_url", "text")
+        .input("temperature", "number")
+        .input("max_tokens", "integer")
+        .input("additional_params", "json")
+        .output("text", "text")
+        .output("response", "text")
+        .output("provider", "text")
+        .output("model", "text")
+        .runtime("rig_runtime", "lightflow.llm.generate")
+        .build()
+}
