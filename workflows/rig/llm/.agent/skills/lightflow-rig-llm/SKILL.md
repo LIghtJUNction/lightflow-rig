@@ -15,6 +15,11 @@ Use `lightflow.rig.llm` to call an arbitrary LLM through LightFlow's RIG-backed 
 - Common inputs: `provider`, `system`, `preamble`, `api_key`, `base_url`, `temperature`, `max_tokens`, `additional_params`.
 - Outputs: `text`, `response`, `provider`, `model`.
 - Runtime capability: `lightflow.llm.generate`.
+- Node Schema: `provider` is a select control; `temperature` and `max_tokens` expose editor ranges; `additional_params` is a JSON editor.
+
+## Runtime
+
+Run with a LightFlow binary compiled with `--features rig`. For local contract checks, use `provider=mock` and any model name. For real providers, prefer environment variables for secrets and pass `api_key` only for temporary local runs.
 
 ## Providers
 
@@ -59,4 +64,10 @@ lfw run lightflow.rig.llm \
   -i provider='"ollama"' \
   -i model='"qwen2.5:14b"' \
   -i prompt='"Summarize this workflow project."'
+```
+
+## Validation
+
+```bash
+lfw node test lightflow.rig.llm
 ```

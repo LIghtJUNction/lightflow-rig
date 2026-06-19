@@ -9,6 +9,8 @@ LightFlow workflow project for routing text generation through
 
 The workflow declares `lightflow.llm.generate`; the LightFlow dependency in
 this project enables the `rig` feature so `lfw run` can execute it directly.
+The workflow includes Node Schema v1 metadata for editor palettes and an agent
+skill under `.agent/skills/lightflow-rig-llm/SKILL.md`.
 
 ## Usage
 
@@ -35,3 +37,11 @@ lfw run lightflow.rig.llm \
 Supported providers in the current runtime are `openai`,
 `openai-compatible`, `openai-responses`, `anthropic`, `ollama`, `openrouter`,
 `deepseek`, `xai`, and `mock`.
+
+## Node Conformance
+
+Validate the workflow contract before publishing changes:
+
+```bash
+lfw node test lightflow.rig.llm
+```
