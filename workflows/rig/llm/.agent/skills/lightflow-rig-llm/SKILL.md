@@ -71,3 +71,12 @@ lfw run lightflow.rig.llm \
 ```bash
 lfw node test lightflow.rig.llm
 ```
+## API Usage
+
+Start `lfw serve`, then call the workflow through the shared HTTP run contract. Adjust `inputs` to match the workflow contract above.
+
+```bash
+curl -sS -X POST http://127.0.0.1:5174/workflows/lightflow.rig.llm/run \
+  -H 'content-type: application/json' \
+  -d '{"inputs":{}}'
+```
