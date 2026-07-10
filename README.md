@@ -5,7 +5,7 @@ LightFlow workflow project for routing text generation through
 
 ## Workflow
 
-- `lightflow.rig.llm`: prompt an arbitrary LLM provider through LightFlow's RIG runtime.
+- `lightflow.rig_llm`: prompt an arbitrary LLM provider through LightFlow's RIG runtime.
 
 The workflow declares `lightflow.llm.generate`; the LightFlow dependency in
 this project enables the `rig` feature so `lfw run` can execute it directly.
@@ -15,7 +15,7 @@ skill under `.agent/skills/lightflow-rig-llm/SKILL.md`.
 ## Usage
 
 ```bash
-lfw run lightflow.rig.llm \
+lfw run lightflow.rig_llm \
   -i provider='"mock"' \
   -i model='"fake-llm"' \
   -i prompt='"hello"'
@@ -27,7 +27,7 @@ as inputs:
 ```bash
 export OPENAI_API_KEY=...
 
-lfw run lightflow.rig.llm \
+lfw run lightflow.rig_llm \
   -i provider='"openai-compatible"' \
   -i model='"gpt-4o-mini"' \
   -i prompt='"Write a concise release note."' \
@@ -43,5 +43,5 @@ Supported providers in the current runtime are `openai`,
 Validate the workflow contract before publishing changes:
 
 ```bash
-lfw node test lightflow.rig.llm
+lfw node test lightflow.rig_llm
 ```

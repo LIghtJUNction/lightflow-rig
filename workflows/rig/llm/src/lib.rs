@@ -1,8 +1,7 @@
 use lightflow::preload::*;
 
 pub fn define() -> WorkflowSpec {
-    workflow("lightflow.rig.llm")
-        .version("0.1.0")
+    workflow!()
         .name("RIG LLM")
         .description("Generate text through Rig using a provider, model, and runtime prompt.")
         .input("prompt", "text")

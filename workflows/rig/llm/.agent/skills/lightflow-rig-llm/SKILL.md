@@ -1,16 +1,16 @@
 ---
 name: LightFlow RIG LLM
-description: Use this skill when working with the lightflow.rig.llm workflow, routing prompts through Rig to OpenAI-compatible APIs, Anthropic, Ollama, OpenRouter, DeepSeek, xAI, or local test providers.
+description: Use this skill when working with the lightflow.rig_llm workflow, routing prompts through Rig to OpenAI-compatible APIs, Anthropic, Ollama, OpenRouter, DeepSeek, xAI, or local test providers.
 version: 0.1.0
 ---
 
 # LightFlow RIG LLM
 
-Use `lightflow.rig.llm` to call an arbitrary LLM through LightFlow's RIG-backed runtime.
+Use `lightflow.rig_llm` to call an arbitrary LLM through LightFlow's RIG-backed runtime.
 
 ## Workflow
 
-- Workflow id: `lightflow.rig.llm`
+- Workflow id: `lightflow.rig_llm`
 - Required inputs: `prompt` or `text`, and `model`.
 - Common inputs: `provider`, `system`, `preamble`, `api_key`, `base_url`, `temperature`, `max_tokens`, `additional_params`.
 - Outputs: `text`, `response`, `provider`, `model`.
@@ -41,7 +41,7 @@ Set `provider` to one of:
 Local mock verification:
 
 ```bash
-lfw run lightflow.rig.llm \
+lfw run lightflow.rig_llm \
   -i provider='"mock"' \
   -i model='"fake-llm"' \
   -i prompt='"hello"'
@@ -50,7 +50,7 @@ lfw run lightflow.rig.llm \
 OpenAI-compatible endpoint:
 
 ```bash
-lfw run lightflow.rig.llm \
+lfw run lightflow.rig_llm \
   -i provider='"openai-compatible"' \
   -i model='"gpt-4o-mini"' \
   -i prompt='"Write a concise status update."' \
@@ -60,7 +60,7 @@ lfw run lightflow.rig.llm \
 Ollama:
 
 ```bash
-lfw run lightflow.rig.llm \
+lfw run lightflow.rig_llm \
   -i provider='"ollama"' \
   -i model='"qwen2.5:14b"' \
   -i prompt='"Summarize this workflow project."'
@@ -69,14 +69,14 @@ lfw run lightflow.rig.llm \
 ## Validation
 
 ```bash
-lfw node test lightflow.rig.llm
+lfw node test lightflow.rig_llm
 ```
 ## API Usage
 
 Start `lfw serve`, then call the workflow through the shared HTTP run contract. Adjust `inputs` to match the workflow contract above.
 
 ```bash
-curl -sS -X POST http://127.0.0.1:5174/workflows/lightflow.rig.llm/run \
+curl -sS -X POST http://127.0.0.1:5174/workflows/lightflow.rig_llm/run \
   -H 'content-type: application/json' \
   -d '{"inputs":{}}'
 ```
