@@ -1,69 +1,82 @@
 use lightflow::preload::*;
 
 pub fn define() -> WorkflowSpec {
-    workflow!()
+    workflow! {
+        input "prompt": "text" {
+            description: "Prompt text sent to the provider.",
+            required: false,
+            widget: "prompt",
+        }
+        input "text": "text" {
+            description: "Alternate prompt input for composition with text-producing workflows.",
+            required: false,
+            widget: "textarea",
+        }
+        input "system": "text" {
+            description: "Optional system prompt.",
+            required: false,
+            widget: "textarea",
+        }
+        input "preamble": "text" {
+            description: "Optional Rig preamble text.",
+            required: false,
+            widget: "textarea",
+        }
+        input "provider": "text" {
+            description: "Provider id such as openai-compatible, anthropic, ollama, openrouter, deepseek, xai, or mock.",
+            required: false,
+            default: "mock",
+            choices: ["openai","openai-compatible","openai-responses","anthropic","ollama","openrouter","deepseek","xai","mock"],
+            widget: "select",
+        }
+        input "model": "text" {
+            description: "Provider model name.",
+            required: true,
+            widget: "text",
+        }
+        input "api_key": "text" {
+            description: "Optional provider API key. Environment defaults are used when omitted.",
+            required: false,
+            widget: "password",
+        }
+        input "base_url": "text" {
+            description: "Optional OpenAI-compatible or Ollama base URL.",
+            required: false,
+            widget: "url",
+        }
+        input "temperature": "number" {
+            description: "Optional sampling temperature.",
+            required: false,
+            range: [0, 2, 0.1],
+            widget: "slider",
+        }
+        input "max_tokens": "integer" {
+            description: "Optional maximum output token count.",
+            required: false,
+            range: [1, 262144, 1],
+            widget: "number",
+        }
+        input "additional_params": "json" {
+            description: "Provider-specific JSON options passed through to the runtime.",
+            required: false,
+            default: {},
+            widget: "json",
+        }
+        output "text": "text" {
+            description: "Generated text.",
+        }
+        output "response": "text" {
+            description: "Generated provider response text.",
+        }
+        output "provider": "text" {
+            description: "Provider used for this call.",
+        }
+        output "model": "text" {
+            description: "Model used for this call.",
+        }
+    }
         .name("RIG LLM")
         .description("Generate text through Rig using a provider, model, and runtime prompt.")
-        .input("prompt", "text")
-        .input_description("prompt", "Prompt text sent to the provider.")
-        .input_required("prompt", false)
-        .input_widget("prompt", "prompt")
-        .input("text", "text")
-        .input_description("text", "Alternate prompt input for composition with text-producing workflows.")
-        .input_required("text", false)
-        .input_widget("text", "textarea")
-        .input("system", "text")
-        .input_description("system", "Optional system prompt.")
-        .input_required("system", false)
-        .input_widget("system", "textarea")
-        .input("preamble", "text")
-        .input_description("preamble", "Optional Rig preamble text.")
-        .input_required("preamble", false)
-        .input_widget("preamble", "textarea")
-        .input("provider", "text")
-        .input_description("provider", "Provider id such as openai-compatible, anthropic, ollama, openrouter, deepseek, xai, or mock.")
-        .input_required("provider", false)
-        .input_default_json("provider", "\"mock\"")
-        .input_enum_json(
-            "provider",
-            "[\"openai\",\"openai-compatible\",\"openai-responses\",\"anthropic\",\"ollama\",\"openrouter\",\"deepseek\",\"xai\",\"mock\"]",
-        )
-        .input_widget("provider", "select")
-        .input("model", "text")
-        .input_description("model", "Provider model name.")
-        .input_required("model", true)
-        .input_widget("model", "text")
-        .input("api_key", "text")
-        .input_description("api_key", "Optional provider API key. Environment defaults are used when omitted.")
-        .input_required("api_key", false)
-        .input_widget("api_key", "password")
-        .input("base_url", "text")
-        .input_description("base_url", "Optional OpenAI-compatible or Ollama base URL.")
-        .input_required("base_url", false)
-        .input_widget("base_url", "url")
-        .input("temperature", "number")
-        .input_description("temperature", "Optional sampling temperature.")
-        .input_required("temperature", false)
-        .input_range("temperature", 0.0, 2.0, 0.1)
-        .input_widget("temperature", "slider")
-        .input("max_tokens", "integer")
-        .input_description("max_tokens", "Optional maximum output token count.")
-        .input_required("max_tokens", false)
-        .input_range("max_tokens", 1.0, 262144.0, 1.0)
-        .input_widget("max_tokens", "number")
-        .input("additional_params", "json")
-        .input_description("additional_params", "Provider-specific JSON options passed through to the runtime.")
-        .input_required("additional_params", false)
-        .input_default_json("additional_params", "{}")
-        .input_widget("additional_params", "json")
-        .output("text", "text")
-        .output_description("text", "Generated text.")
-        .output("response", "text")
-        .output_description("response", "Generated provider response text.")
-        .output("provider", "text")
-        .output_description("provider", "Provider used for this call.")
-        .output("model", "text")
-        .output_description("model", "Model used for this call.")
         .runtime("rig_runtime", "lightflow.llm.generate")
         .build()
 }

@@ -3,4 +3,4 @@ resolver = "3"
 members = ["workflows/*"]
 
 [workspace.dependencies]
-lightflow = { version = "0.1.3", features = ["rig"] }
+lightflow = { version = "0.1.5", features = ["rig"] }
