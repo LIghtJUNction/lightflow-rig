@@ -3,4 +3,6 @@ resolver = "3"
 members = ["workflows/*"]
 
 [workspace.dependencies]
-lightflow = { version = "0.1.5", features = ["rig"] }
+lightflow = { version = "0.1.4", path = "../..", default-features = false }
+rig-core = "0.38.2"
+tokio = { version = "1", features = ["rt-multi-thread"] }

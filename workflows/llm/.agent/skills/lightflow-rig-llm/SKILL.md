@@ -12,14 +12,19 @@ Use `lightflow.rig_llm` to call an arbitrary LLM through LightFlow's RIG-backed 
 
 - Workflow id: `lightflow.rig_llm`
 - Required inputs: `prompt` or `text`, and `model`.
-- Common inputs: `provider`, `system`, `preamble`, `api_key`, `base_url`, `temperature`, `max_tokens`, `additional_params`.
+- Common inputs: `provider`, `system`, `preamble`, `temperature`, `max_tokens`, `additional_params`.
 - Outputs: `text`, `response`, `provider`, `model`.
 - Runtime capability: `lightflow.llm.generate`.
+- Runtime engine: `runner.v1`.
 - Node Schema: `provider` is a select control; `temperature` and `max_tokens` expose editor ranges; `additional_params` is a JSON editor.
 
 ## Runtime
 
-Run with a LightFlow binary compiled with `--features rig`. For local contract checks, use `provider=mock` and any model name. For real providers, prefer environment variables for secrets and pass `api_key` only for temporary local runs.
+The workflow crate owns the Rig provider adapter and exposes it through its
+package runner. The LightFlow host does not need a Rig feature or provider
+implementation. For local contract checks, use `provider=mock` and any model
+name. Keep provider API keys only in runtime environment variables; secrets
+are not accepted as workflow inputs.
 
 ## Providers
 
@@ -34,7 +39,15 @@ Set `provider` to one of:
 - `xai`
 - `mock` for local tests
 
-`api_key` and `base_url` can be passed as workflow inputs. If omitted, LightFlow reads provider-specific environment variables such as `OPENAI_API_KEY`, `OPENAI_BASE_URL`, `ANTHROPIC_API_KEY`, `OLLAMA_API_BASE_URL`, `OPENROUTER_API_KEY`, `DEEPSEEK_API_KEY`, and `XAI_API_KEY`. `LIGHTFLOW_RIG_PROVIDER`, `LIGHTFLOW_RIG_MODEL`, and `LIGHTFLOW_RIG_SYSTEM` provide defaults.
+Provider endpoints and secrets are administrator-owned environment
+configuration and are not accepted as workflow inputs. Provider secrets are
+read only from variables such as `OPENAI_API_KEY`,
+`ANTHROPIC_API_KEY`, `OLLAMA_API_KEY`, `OPENROUTER_API_KEY`,
+`DEEPSEEK_API_KEY`, and `XAI_API_KEY`. OpenAI-compatible endpoints use the
+dedicated pair `OPENAI_COMPATIBLE_BASE_URL` and
+`OPENAI_COMPATIBLE_API_KEY`; they never receive `OPENAI_API_KEY`. Ollama may
+use `OLLAMA_API_BASE_URL`. `LIGHTFLOW_RIG_PROVIDER`,
+`LIGHTFLOW_RIG_MODEL`, and `LIGHTFLOW_RIG_SYSTEM` provide defaults.
 
 ## Examples
 
@@ -50,11 +63,12 @@ lfw run lightflow.rig_llm \
 OpenAI-compatible endpoint:
 
 ```bash
+export OPENAI_COMPATIBLE_BASE_URL='https://gateway.example/v1'
+export OPENAI_COMPATIBLE_API_KEY='...'
 lfw run lightflow.rig_llm \
   -i provider='"openai-compatible"' \
   -i model='"gpt-4o-mini"' \
-  -i prompt='"Write a concise status update."' \
-  -i base_url='"https://api.openai.com/v1"'
+  -i prompt='"Write a concise status update."'
 ```
 
 Ollama:
